@@ -27,6 +27,21 @@ int fb_putnbr(int nb)
 	return (len);
 }
 
+int fb_putunsigned(unsigned int nb)
+{
+	int len = 0;
+
+    if (nb <= 9) {
+		fb_putchar(nb + '0');
+		len += 1;
+    }
+	if (nb > 9) {
+		fb_putunsigned(nb / 10);
+		fb_putunsigned(nb % 10);
+	}
+	return (len);
+}
+
 int fb_putstr(char *str)
 {
 	int i = 0;
@@ -40,10 +55,14 @@ void print_formats(char c, va_list args, int *printed_chars)
 {
 	if (c == 'd' || c == 'i')
 		*printed_chars += fb_putnbr(va_arg(args, int));
+	if (c == 'u')
+		*printed_chars += fb_putunsigned(va_arg(args, unsigned int));
 	if (c == 'c')
 		*printed_chars += fb_putchar(va_arg(args, int));
 	if (c == 's')
 		*printed_chars += fb_putstr(va_arg(args, char *));
+	if (c == '%')
+		*printed_chars += fb_putchar('%');
 }
 
 int fb_printf(char *str, ...)

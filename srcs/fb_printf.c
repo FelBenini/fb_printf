@@ -38,7 +38,7 @@ int fb_putstr(char *str)
 
 void print_formats(char c, va_list args, int *printed_chars)
 {
-	if (c == 'd')
+	if (c == 'd' || c == 'i')
 		*printed_chars += fb_putnbr(va_arg(args, int));
 	if (c == 'c')
 		*printed_chars += fb_putchar(va_arg(args, int));
